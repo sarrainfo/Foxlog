@@ -1,7 +1,10 @@
 //Import
-const DATE_FORMAT_REGEX = require('./constants');
+const {DATE_FORMAT_REGEX, W3C_FORMAT_REGEX} = require('./constants');
 
 
+
+
+//============================================
 /**
  * Convert data us-format to timestamp
  * @param {string} date dd/MMM/yyyy:hh:mm:ss ZZZZ 
@@ -14,4 +17,30 @@ const getTimestamp=(date)=>{
     return new Date(date.replace(':',' ')).getTime()/1000;
     
 }
-module.exports = getTimestamp
+
+/**
+ * Get informations from w3c formated http
+ * @param {string} w3cFormatLine - logfile format w3c
+ * @returns {object}
+ */
+const parser = (w3cFormatLine)=>{
+
+    // use this regex https://www.regextester.com/95830
+    const values = w3cFormatLine.match(W3C_FORMAT_REGEX);
+   
+    return {
+        host : values[1],
+        logName: values[2],
+        authUser: values[3],
+        date : getTimestamp(values[4]),
+        method : values[5],
+        url : values[6],
+        section : `/${values[6].split('/')[1]}`,
+        version: values[7],
+        status: parseInt(values[8]),
+        bytes : parseInt(values[9]||0),
+    }
+  
+}
+exports.getTimestamp = getTimestamp;
+exports.parser = parser;
