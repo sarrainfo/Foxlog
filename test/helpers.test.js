@@ -35,6 +35,10 @@ describe('Test helpers function', function() {
           expect(parserValue).toHaveProperty('bytes');
          
         });
+        test('Bytes and status property should be number value',function(){
+            expect(typeof parserValue.bytes).toBe('number');
+            expect(typeof parserValue.status).toBe('number');
+          })
         describe('Test section value, should return the correct value', function(){
             test('From simple url',function(){
                 const expectedValue= '/report';
