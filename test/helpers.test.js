@@ -22,7 +22,7 @@ describe('Test helpers function', function() {
     describe('Test Parser function',function(){
         const parserValue = parser(w3cFormatHttp);
         const parserValue2= parser(w3cFormatHttp2);
-        test('should return specifique property',function(){
+        test('should return specifiq properties',function(){
           expect(parserValue).toHaveProperty('host');
           expect(parserValue).toHaveProperty('logName');
           expect(parserValue).toHaveProperty('authUser');
@@ -35,5 +35,17 @@ describe('Test helpers function', function() {
           expect(parserValue).toHaveProperty('bytes');
          
         });
+        describe('Test section value, should return the correct value', function(){
+            test('From simple url',function(){
+                const expectedValue= '/report';
+                expect(parserValue.section).toBe(expectedValue);
+              });
+              test('From complex url',function(){
+                  const expectedValue = '/test';
+                  expect(parserValue2.section).toBe(expectedValue);
+        
+              });
+          });
+
     });
-})
+});
