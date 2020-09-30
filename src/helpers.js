@@ -42,5 +42,28 @@ const parser = (w3cFormatLine)=>{
     }
   
 }
+
+/**
+ *  Filter datas by section
+ *  return relevant information about section
+ * @param {[Object]} datas - All parse datas
+ * @param {String} section - 
+ */
+ const getDataBySection=(datas, section)=>{
+    let nbVisited;
+    // check que datas est un array
+    const errors =datas.filter(data=> data.section === section)
+    .filter((data,_,tab)=>{
+       nbVisited=tab.length;
+        return data.status>300||data.status===300
+    });
+    return {
+        section,
+        nbErrors: errors.length,
+        nbVisited,
+    }
+        
+}
 exports.getTimestamp = getTimestamp;
 exports.parser = parser;
+exports.getDataBySection = getDataBySection;

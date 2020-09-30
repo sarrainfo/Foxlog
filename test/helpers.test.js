@@ -1,6 +1,6 @@
 // Import
-const {getTimestamp, parser} = require('../src/helpers');
-const { w3cFormatHttp, w3cFormatHttp2} = require('./mock');
+const {getTimestamp, getDataBySection, parser} = require('../src/helpers');
+const { datas, w3cFormatHttp, w3cFormatHttp2} = require('./mock');
 
 
 //==========================================================
@@ -50,6 +50,19 @@ describe('Test helpers function', function() {
         
               });
           });
+        });
+        describe('Test getDataBySection function',function(){
+            const dataBySection = getDataBySection(datas,'/test');
+            test('should contains specifique property', function(){
+              expect(dataBySection).toHaveProperty('section');
+              expect(dataBySection).toHaveProperty('nbErrors');
+              expect(dataBySection).toHaveProperty('nbVisited');
+            });
+            //test('Should filter by section',function(){
+              
+              //expect(dataBySection.section).toBe('/test');
+           // });
+              
 
+        });
     });
-});
