@@ -17,7 +17,10 @@
     "url": "https://github.com/sarrainfo/Foxlog/issues"
   },
   "homepage": "https://github.com/sarrainfo/Foxlog#readme",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.17.1",
+    "line-reader": "^0.4.0"
+  },
   "devDependencies": {
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",

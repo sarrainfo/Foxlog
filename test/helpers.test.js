@@ -1,5 +1,7 @@
 // Import
-const { getTimestamp, getDataBySection, parser } = require('../src/helpers');
+const {
+  filterDataFromFileByLimitTime, getTimestamp, getDataBySection, parser,
+} = require('../src/helpers');
 const { datas, w3cFormatHttp, w3cFormatHttp2 } = require('./mock');
 
 //= =========================================================
@@ -75,5 +77,18 @@ describe('Test helpers function', () => {
         getDataBySection('test', '/name');
       }).toThrow();
     });
+  });
+
+  describe('test filterDataFromFileByLimitTime function', () => {
+    // test('should throw an error when invalid path', () => {
+    // voir avec greg pk sans asyn sa marche
+    // const sarra = expect(filterDataFromFileByLimitTime('/toto', '1584394396', '10'));
+    // console.log('sarra', sarra.reject);
+    // });
+    //     test('should take a string on parameter and 2 numbers', async () => {
+    //       const data = filterDataFromFileByLimitTime('./trafficsMock', '1584394396', '10');
+    //       console.log('data', data);
+    //       expect(typeof data).toBe('array');
+    //     });
   });
 });
