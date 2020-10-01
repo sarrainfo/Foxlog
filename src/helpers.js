@@ -17,6 +17,7 @@ const getTimestamp = (date) => {
 
 /**
  * Get informations from w3c formated http
+ * Convert date to timestamp
  * @param {string} w3cFormatLine - logfile format w3c
  * @returns {object}
  */
@@ -59,6 +60,17 @@ const getDataBySection = (datas, section) => {
   };
 };
 
+/**
+ * Retrive all section from data
+ * @param {[Object]} datas
+ * @returns {[String]}
+ */
+const getAllSection = (datas) => {
+  const allSections = [];
+  datas.forEach((data) => allSections.push(data.section));
+  return allSections;
+};
+
 const filterDataFromFileByLimitTime = (path, specialDate, limit) => {
   lineReader.eachLine('./trafficsMock', (line) => {
     console.log(line);
@@ -70,4 +82,5 @@ const filterDataFromFileByLimitTime = (path, specialDate, limit) => {
 exports.getTimestamp = getTimestamp;
 exports.parser = parser;
 exports.getDataBySection = getDataBySection;
+exports.getAllSection = getAllSection;
 exports.filterDataFromFileByLimitTime = filterDataFromFileByLimitTime;

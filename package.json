@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/sarrainfo/Foxlog#readme",
   "dependencies": {
+    "cron": "^1.8.2",
     "express": "^4.17.1",
-    "line-reader": "^0.4.0"
+    "line-reader": "^0.4.0",
+    "socket.io": "^2.3.0",
+    "tail": "^2.0.4"
   },
   "devDependencies": {
     "eslint": "^7.10.0",
