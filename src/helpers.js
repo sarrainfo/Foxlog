@@ -66,8 +66,10 @@ const getDataBySection = (datas, section) => {
  * @returns {[String]}
  */
 const getAllSection = (datas) => {
-  const allSections = [];
+  let allSections = [];
   datas.forEach((data) => allSections.push(data.section));
+  // Remove duplicate
+  allSections = [...new Set(allSections)];
   return allSections;
 };
 

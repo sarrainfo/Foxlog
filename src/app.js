@@ -46,9 +46,10 @@ app.get('/', (req, res) => {
 
 // Every 10 second, make stats
 
-const job = new cron.CronJob('*/100 * * * * *', (() => {
+const job = new cron.CronJob('*/10 * * * * *', (() => {
   console.log('10 sec');
   // console.log('You will see this message every 10 second');
+  console.log('inputdata', inputData);
   outputData = getAllSection(inputData).map((section) => getDataBySection(inputData, section));
   console.log('ssss', outputData);
   inputData = [];

@@ -79,6 +79,7 @@ describe('Test helpers function', () => {
     });
   });
   describe('test getAllSection function', () => {
+    const expected = ['/user', '/api'];
     test('Should throw error when data parameter not an array', () => {
       const data = 'toto';
       expect(() => {
@@ -93,8 +94,11 @@ describe('Test helpers function', () => {
     });
     test('Should return section', () => {
       const fackDatas = [{ section: '/api' }, { section: '/user' }, { date: 234324 }];
-      const expected = ['/user', '/api'];
       expect(getAllSection(fackDatas)).toEqual(expect.arrayContaining(expected));
+    });
+    test('Should not contains duplicates section', () => {
+      const fackDatas = [{ section: '/api' }, { section: '/user' }, { section: '/api' }];
+      expect(getAllSection(fackDatas)).toEqual(['/api', '/user']);
     });
   });
 
