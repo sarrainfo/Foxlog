@@ -35,7 +35,7 @@ const parser = (w3cFormatLine) => {
     section: `/${values[6].split('/')[1]}`,
     version: values[7],
     status: parseInt(values[8], 10),
-    bytes: parseInt(values[9] || 0, 10),
+    bytes: parseInt(values[9], 10) || 0,
   };
 };
 
