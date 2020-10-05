@@ -1,5 +1,4 @@
 // Import
-const lineReader = require('line-reader');
 const { DATE_FORMAT_REGEX, W3C_FORMAT_REGEX } = require('./constants');
 
 //= ===========================================
@@ -73,11 +72,13 @@ const getAllSection = (datas) => {
   return allSections;
 };
 
-const filterDataFromFileByLimitTime = (path, specialDate, limit) => {
-  lineReader.eachLine('./trafficsMock', (line) => {
-    console.log(line);
-  });
-};
+/**
+ * Sort datas by nbVisited values
+ * in descending order
+ *
+ * @param {[Object]} datas - an array containing {section, nbVisited, nbErrors}
+ */
+const sortByNbVisited = (datas) => datas.sort((a, b) => b.nbVisited - a.nbVisited);
 
 //= =============================================
 // Export
@@ -85,4 +86,4 @@ exports.getTimestamp = getTimestamp;
 exports.parser = parser;
 exports.getDataBySection = getDataBySection;
 exports.getAllSection = getAllSection;
-exports.filterDataFromFileByLimitTime = filterDataFromFileByLimitTime;
+exports.sortByNbVisited = sortByNbVisited;

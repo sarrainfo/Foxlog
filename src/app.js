@@ -1,64 +1,58 @@
+/* eslint-disable no-use-before-define */
 // Import
-
-// Package
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 const tail = require('tail');
-const lineReader = require('line-reader');
-const cron = require('cron');
-//
-const { ACCESS_LOG_PATH, LIMIT_TIME } = require('./constants');
-const { parser, getAllSection, getDataBySection } = require('./helpers');
-//= ====================================================
 
+const { ACCESS_LOG_PATH, LIMIT_TIME, SOCKET_EVENT } = require('./constants');
+const {
+  parser, getAllSection, getDataBySection, sortByNbVisited,
+} = require('./helpers');
+
+//= ====================================================
+//
 const app = express();
 const httpServer = http.createServer(app);
 const io = socketIO(httpServer);
 let inputData = [];
 let outputData = [];
+let interval;
 const watcher = new tail.Tail(ACCESS_LOG_PATH);
 
 httpServer.listen(4000, () => {
   console.log('listening on *:4000');
 });
+app.get('/', (req, res) => {
+  res.send({ response: 'Server ready' }).status(200);
+});
 
-// const data = fs.readFileSync(ACCESS_LOG_PATH, 'utf8')
-// lineReader.eachLine(ACCESS_LOG_PATH, (line, last) => {
-//   console.log(line);
-//   const { date } = parser(line);
-//   console.log(date);
-//   if (date > (Date.now() - LIMIT_TIME)) {
-//     inputData.push();
-//   }
-// date > (Date.now() - LIMIT_TIME) && inputData.push();
-// });
-
-// Listen continously the new input on accesslog
+// Listen continously the new input on /tmp/accesslog file
 watcher.on('line', (data) => {
-  console.log('data', data);
   inputData.push(parser(data));
 });
 
-app.get('/', (req, res) => {
-  // res.sendFile(`${__dirname}/index.html`);
-  res.send({ response: 'I am alive' }).status(200);
-});
-
-// Every 10 second, make stats
-
-const job = new cron.CronJob('*/10 * * * * *', (() => {
-  console.log('10 sec');
-  // console.log('You will see this message every 10 second');
-  console.log('inputdata', inputData);
-  outputData = getAllSection(inputData).map((section) => getDataBySection(inputData, section));
-  console.log('output', outputData);
-  inputData = [];
-  // const essai = getAllSection(data).map(section=>getoutputTraffics(data,section));
-}));
-job.start();
-
+// Send  statistics to client
 io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.emit('FromFoxlog', outputData);
+  console.log('Client connected');
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => emitStatistics(socket), LIMIT_TIME);
+  socket.on('disconnect', () => {
+    console.log('client disconnected');
+    clearInterval(interval);
+  });
 });
+
+//= =============================
+// handle function
+/**
+ *  update datas and send
+ * @param {socket.io} socket
+ */
+const emitStatistics = (socket) => {
+  outputData = getAllSection(inputData).map((section) => getDataBySection(inputData, section));
+  inputData = [];
+  socket.emit(SOCKET_EVENT, sortByNbVisited(outputData));
+};
