@@ -10,7 +10,7 @@ const SOCKET_EVENT = 'FromFoxlog';
 const DEFAULT_PORT = 4000;
 
 // Time in Millisecond
-const LIMIT_TIME = 100000;
+const LIMIT_TIME = 10000;
 
 // Exports
 exports.DATE_FORMAT_REGEX = DATE_FORMAT_REGEX;
