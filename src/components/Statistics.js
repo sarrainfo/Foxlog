@@ -2,18 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import Table from 'react-bootstrap/Table';
+import PropTypes from 'prop-types';
 
-import { URL, SOCKET_EVENT } from '../constants';
+import { URL, STATISTICS_EVENT } from '../constants';
 
 //= =======================================
 // Component
 
-function Statistics() {
+function Statistics({ socket }) {
   const [reponse, setReponse] = useState([]);
 
   useEffect(() => {
-    const socket = socketIOClient(`${URL}:4000`);
-    socket.on(SOCKET_EVENT, (data) => { setReponse(data); });
+    // const socket = socketIOClient(`${URL}:4000`);
+    socket.on(STATISTICS_EVENT, (data) => { console.log('stats', data); setReponse(data); });
     return () => socketIOClient.disconnect();
   }, []);
   return (
@@ -39,5 +40,10 @@ function Statistics() {
 
   );
 }
+
+Statistics.protoTypes = {
+  socket: PropTypes.func.isRequired,
+
+};
 
 export default Statistics;
